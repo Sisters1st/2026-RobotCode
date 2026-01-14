@@ -26,7 +26,7 @@ public class TeleopController {
     }
 
     public void driveWithJoystick(){
-
+        //read all joysticks and deadband them
         double xJoystickValule = driverJoystick.getRawAxis(Settings.TeleopSettings.DriverJoystick.xAxis);
         double yJoystickValule = driverJoystick.getRawAxis(Settings.TeleopSettings.DriverJoystick.yAxis);
         double rJoystickValule = -driverJoystick.getRawAxis(Settings.TeleopSettings.DriverJoystick.rAxis);
@@ -50,11 +50,13 @@ public class TeleopController {
             ryJoystickValule = 0;
         }
 
+        //invert if on red
         if (Robot.onRed == false) {
             xJoystickValule *= -1;
             yJoystickValule *= -1;
         }
 
+        //calcualte robot velocity
         Translation2d robotVelocity = new Translation2d(xJoystickValule * Settings.DrivebaseSettings.maxVelocityMPS,
                 yJoystickValule * Settings.DrivebaseSettings.maxVelocityMPS);
         
@@ -68,7 +70,7 @@ public class TeleopController {
             lastPTFHeading = Robot.drivebase.yagslDrive.getOdometryHeading();
 
         } else if(Settings.TeleopSettings.DriverJoystick.usePointToFaceControl){
-
+            //use point to face control on the rotation joystick
             Rotation2d pointToFaceGoalHeading;
             if(Math.abs(ryJoystickValule) < Settings.TeleopSettings.DriverJoystick.pointToFaceRotationCutoff 
                 && Math.abs(rxJoystickValule) < Settings.TeleopSettings.DriverJoystick.pointToFaceRotationCutoff){
@@ -83,6 +85,7 @@ public class TeleopController {
             Robot.drivebase.drive(robotVelocity, pointToFaceGoalHeading, fieldRelative);
 
         } else {
+            //standard swerve rotation control
             Rotation2d goalHeading = Robot.drivebase.goalHeading;
             if (!(Math.abs(rJoystickValule) < Settings.TeleopSettings.DriverJoystick.deadband)) {
                 Rotation2d currentHeading = Robot.drivebase.yagslDrive.getOdometryHeading();
