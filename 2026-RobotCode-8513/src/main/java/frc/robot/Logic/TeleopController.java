@@ -1,5 +1,6 @@
 package frc.robot.Logic;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Joystick;
@@ -48,7 +49,15 @@ public class TeleopController {
                             rJoystickValule * Settings.TeleopSettings.DriverJoystick.rotationalJoystickSensitivity));
         }
 
-        Robot.drivebase.drive(robotVelocity, goalHeading, fieldRelative);
+        if(driverJoystick.getRawButton(Settings.TeleopSettings.DriverJoystick.faceHubButton)){
+            Pose2d hubPose = Settings.Field.Poses.blueHub;
+            if(Robot.onRed){
+                hubPose = Settings.Field.Poses.redHub;
+            }
+            Robot.drivebase.driveFacingPose(robotVelocity, hubPose, fieldRelative);
+        } else {
+            Robot.drivebase.drive(robotVelocity, goalHeading, fieldRelative);
+        }
 
     }
 
