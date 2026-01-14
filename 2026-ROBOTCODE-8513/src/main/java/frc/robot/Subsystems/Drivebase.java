@@ -17,7 +17,9 @@ public class Drivebase {
     public Drivebase() {
         File swerveJsonDirectory = new File(Filesystem.getDeployDirectory(), "swerve");
         try {
-            yagslDrive = new SwerveParser(swerveJsonDirectory).createSwerveDrive(Settings.DrivebaseSettings.maxSpeedMPS, new Pose2d(1, 1, new Rotation2d(1)));
+            yagslDrive = new SwerveParser(swerveJsonDirectory)
+                            .createSwerveDrive(Settings.DrivebaseSettings.maxVelocityMPS, 
+                                                new Pose2d(8.25, 4, new Rotation2d(0)));
         } catch (IOException e) {
             e.printStackTrace();
         }

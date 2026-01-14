@@ -5,7 +5,10 @@
 package frc.robot;
 
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import frc.robot.Logic.TeleopController;
 import frc.robot.Subsystems.Drivebase;
 
 /**
@@ -20,27 +23,32 @@ public class Robot extends TimedRobot {
    */
 
   public static Drivebase drivebase = new Drivebase();
+  public static TeleopController teleop = new TeleopController();
 
-  public Robot() {
+  public static boolean onRed = true;
 
-  }
+  public Robot() {}
 
   @Override
   public void robotPeriodic() {}
 
   @Override
-  public void autonomousInit() {}
-
-  @Override
-  public void autonomousPeriodic() {
-    Robot.drivebase.yagslDrive.drive(new Translation2d(1, 0), 0.5, true, false);
+  public void autonomousInit() {
+    updateAlliance();
   }
 
   @Override
-  public void teleopInit() {}
+  public void autonomousPeriodic() {}
 
   @Override
-  public void teleopPeriodic() {}
+  public void teleopInit() {
+    updateAlliance();
+  }
+
+  @Override
+  public void teleopPeriodic() {
+    teleop.teleopLoop();
+  }
 
   @Override
   public void disabledInit() {}
@@ -59,4 +67,12 @@ public class Robot extends TimedRobot {
 
   @Override
   public void simulationPeriodic() {}
+
+  public void updateAlliance(){
+    try {
+      onRed = DriverStation.getAlliance().get() == Alliance.Red;
+    } catch (Exception e) {
+      onRed = true;
+    }    
+  }
 }
