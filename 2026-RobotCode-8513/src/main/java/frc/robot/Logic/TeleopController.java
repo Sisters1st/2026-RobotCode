@@ -72,13 +72,17 @@ public class TeleopController {
         
         //press A to face hub
         if(driverJoystick.getRawButton(Settings.TeleopSettings.DriverJoystick.faceHubButton)){
+            /*
             Pose2d hubPose = Settings.Field.Poses.blueHub;
             if(Robot.onRed){
                 hubPose = Settings.Field.Poses.redHub;
             }
+            */
+            Pose2d hubPose = Robot.shooter.calculateGoalPoseOnTheFly();
+            
             Robot.drivebase.driveFacingPose(robotVelocity, hubPose, fieldRelative);
             lastPTFHeading = Robot.drivebase.yagslDrive.getOdometryHeading();
-
+            
         } else if(Settings.TeleopSettings.DriverJoystick.usePointToFaceControl){
             //use point to face control on the rotation joystick
             Rotation2d pointToFaceGoalHeading;
