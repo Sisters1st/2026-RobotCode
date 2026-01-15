@@ -56,7 +56,12 @@ public class TeleopController {
             yJoystickValule *= -1;
         }
 
-        Rotation2d angleOfTravel = new Rotation2d(xJoystickValule, yJoystickValule);
+        Rotation2d angleOfTravel;
+        if(xJoystickValule == 0 && yJoystickValule == 0){
+            angleOfTravel = Robot.drivebase.goalHeading;
+        } else { 
+            angleOfTravel= new Rotation2d(xJoystickValule, yJoystickValule);
+        }
         double velocity = Math.sqrt(xJoystickValule * xJoystickValule + yJoystickValule * yJoystickValule);
         if(velocity > 1){
             velocity = 1;

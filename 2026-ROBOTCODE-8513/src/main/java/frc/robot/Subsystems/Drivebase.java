@@ -76,7 +76,11 @@ public class Drivebase {
                 false);
         double vX = yagslDrive.getFieldVelocity().vxMetersPerSecond;
         double vY = yagslDrive.getFieldVelocity().vyMetersPerSecond;
-        SmartDashboard.putNumber("DrivebaseVelocity", Math.sqrt(vX * vX + vY * vY) );
+        SmartDashboard.putNumber("DrivebaseVelocity", Math.sqrt(vX * vX + vY * vY));
+
+        if(Robot.isSimulation()){
+            yagslDrive.addVisionMeasurement(yagslDrive.getSimulationDriveTrainPose().get(), Timer.getFPGATimestamp());
+        }
     }
 
     public void driveFacingPose(Translation2d translation2d, Pose2d facePoint, boolean fR){
