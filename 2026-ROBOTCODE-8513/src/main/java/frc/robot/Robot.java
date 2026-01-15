@@ -9,6 +9,9 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.Logic.TeleopController;
 import frc.robot.Subsystems.Drivebase;
+import swervelib.SwerveDrive;
+import swervelib.telemetry.SwerveDriveTelemetry;
+import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 
 
 /**
@@ -28,7 +31,9 @@ public class Robot extends TimedRobot {
    * initialization code.
    */
 
-  public Robot() {}
+  public Robot() {
+    SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
+  }
 
   @Override
   public void robotPeriodic() {}
