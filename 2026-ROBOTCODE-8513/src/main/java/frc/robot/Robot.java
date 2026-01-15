@@ -12,10 +12,17 @@ import edu.wpi.first.wpilibj.TimedRobot;
  * this project, you must also update the Main.java file in the project.
  */
 public class Robot extends TimedRobot {
+  
+  public static Subsystems.Drivebase drivebase = new Subsystems.Drivebase();
+  public static Logic.TeleopController teleop = new Logic.TeleopController();
+
+  public static boolean onRed = true;
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */
+
   public Robot() {}
 
   @Override
@@ -50,4 +57,13 @@ public class Robot extends TimedRobot {
 
   @Override
   public void simulationPeriodic() {}
+
+  public static void updateAlliance(){
+    try {
+      onRed = DriverStation.getAlliance().get() == Alliance.Red;
+    } catch (Exception e) {
+      onRed = true;
+    }    
+  }
 }
+
