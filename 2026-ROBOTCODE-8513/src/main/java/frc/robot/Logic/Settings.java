@@ -6,7 +6,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 public class Settings {
 
     public static class DrivebaseSettings{
-        public static final double maxVelocityMPS = 3.0;
+        public static final double maxVelocityMPS = 3.8;
         public static final double maxRotationalVelocityRPS = 6.28;
 
         public static class RotationPIDConstants{
@@ -58,7 +58,7 @@ public class Settings {
             public static final int yAxis = 0;
             public static final int rAxis = 4;
 
-            public static final boolean usePointToFaceControl = true;
+            public static final boolean usePointToFaceControl = false;
             public static final int rxAxisPTF = 4;
             public static final int ryAxisPTF = 5;
             public static final double pointToFaceRotationCutoff = 0.5;

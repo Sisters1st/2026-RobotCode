@@ -4,7 +4,6 @@ import frc.robot.Robot;
 
 public class Autonomous {
     
-
     public Autonomous(){
 
     }

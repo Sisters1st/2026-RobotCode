@@ -16,6 +16,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.Logic.Settings;
 import swervelib.SwerveDrive;
@@ -73,6 +74,9 @@ public class Drivebase {
                 rotationCorrection,
                 fR,
                 false);
+        double vX = yagslDrive.getFieldVelocity().vxMetersPerSecond;
+        double vY = yagslDrive.getFieldVelocity().vyMetersPerSecond;
+        SmartDashboard.putNumber("DrivebaseVelocity", Math.sqrt(vX * vX + vY * vY) );
     }
 
     public void driveFacingPose(Translation2d translation2d, Pose2d facePoint, boolean fR){

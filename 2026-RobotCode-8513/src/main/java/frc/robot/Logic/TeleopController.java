@@ -56,9 +56,14 @@ public class TeleopController {
             yJoystickValule *= -1;
         }
 
+        Rotation2d angleOfTravel = new Rotation2d(xJoystickValule, yJoystickValule);
+        double velocity = Math.sqrt(xJoystickValule * xJoystickValule + yJoystickValule * yJoystickValule);
+        if(velocity > 1){
+            velocity = 1;
+        }
+
         //calcualte robot velocity
-        Translation2d robotVelocity = new Translation2d(xJoystickValule * Settings.DrivebaseSettings.maxVelocityMPS,
-                yJoystickValule * Settings.DrivebaseSettings.maxVelocityMPS);
+        Translation2d robotVelocity = new Translation2d(velocity * Settings.DrivebaseSettings.maxVelocityMPS, angleOfTravel);
         
         //press A to face hub
         if(driverJoystick.getRawButton(Settings.TeleopSettings.DriverJoystick.faceHubButton)){
