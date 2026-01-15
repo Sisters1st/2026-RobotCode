@@ -1,3 +1,17 @@
+package frc.robot.Subsystems;
+
+import java.io.File;
+
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.Filesystem;
+import frc.robot.Robot;
+import frc.robot.Settings;
+import swervelib.SwerveDrive;
+import swervelib.parser.SwerveParser;
+
 public class Drivebase {
     public SwerveDrive yagslDrive;
     public Rotation2d goalHeading = new Rotation2d();
@@ -11,7 +25,7 @@ public class Drivebase {
             yagslDrive = new SwerveParser(swerveJsonDirectory)
                     .createSwerveDrive(Settings.DrivebaseSettings.maxVelocityMPS,
                             new Pose2d(8.25, 4, new Rotation2d(0)));
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

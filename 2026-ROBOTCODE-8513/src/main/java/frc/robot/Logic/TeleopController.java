@@ -1,12 +1,28 @@
+package frc.robot.Logic;
+
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.Robot;
+import frc.robot.Settings;
+
 public class TeleopController {
 
     public Joystick driverXboxController = new Joystick(Settings.TeleopSettings.driverJoystickPort);
+    public PIDController rJoystickController = new PIDController(0.1, 0, 0);
 
     public Rotation2d goalHeading = new Rotation2d();
 
     SlewRateLimiter xfilter = new SlewRateLimiter(4);
     SlewRateLimiter yfilter = new SlewRateLimiter(4);
     SlewRateLimiter rfilter = new SlewRateLimiter(4);
+
+    public void initTele() {
+
+
+    }
 
     public void driveTele() {
 
@@ -35,22 +51,12 @@ public class TeleopController {
         double yInput = Math.pow(ySpeedJoystick, 3);
         double rInput = Math.pow(rSpeedJoystick, 3);
 
-        double xV = xInput * drivebase.swerveDrive.getMaximumChassisVelocity();
-        double yV = yInput * drivebase.swerveDrive.getMaximumChassisVelocity();
-        double rV = rInput * drivebase.swerveDrive.getMaximumChassisAngularVelocity();
+        double xV = xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity();
+        double yV = yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity();
+        double rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
 
-        double jX = driverXboxController.getRawAxis(Settings.TeleopSettings.rightJoystickX);
-        double jY = driverXboxController.getRawAxis(Settings.TeleopSettings.rightJoystickY);
 
-        if (Settings.TeleopSettings.headingJoystickControls) {
-            if (Math.sqrt(jX * jX + jY * jY) > 0.5) {
-                goalHeading = new Rotation2d(jX, -jY);
-                goalHeading = goalHeading.minus(Rotation2d.fromDegrees(90));
-            }
-            rV = Settings.TeleopSettings.rJoystickController.calculate(
-                    drivebase.swerveDrive.getPose().getRotation().minus(goalHeading).getDegrees(), 0);
-        }
+        Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), rV, true, false);
 
-        drivebase.drive(xV, yV, rV);
     }
 }

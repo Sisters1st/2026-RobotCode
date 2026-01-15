@@ -4,7 +4,12 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
+import frc.robot.Logic.TeleopController;
+import frc.robot.Subsystems.Drivebase;
+
 
 /**
  * The methods in this class are called automatically corresponding to each mode, as described in
@@ -13,8 +18,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
  */
 public class Robot extends TimedRobot {
   
-  public static Subsystems.Drivebase drivebase = new Subsystems.Drivebase();
-  public static Logic.TeleopController teleop = new Logic.TeleopController();
+  public static Drivebase drivebase = new Drivebase();
+  public static TeleopController teleop = new TeleopController();
 
   public static boolean onRed = true;
 
@@ -36,7 +41,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    teleop.teleopInit();
+    teleop.initTele();
   }
 
   @Override
