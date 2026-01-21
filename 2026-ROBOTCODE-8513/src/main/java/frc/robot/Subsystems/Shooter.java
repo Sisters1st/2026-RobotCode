@@ -1,5 +1,7 @@
 package frc.robot.Subsystems;
 
+import java.util.Set;
+
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.Slot1Configs;
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -91,7 +93,16 @@ public class Shooter {
 
     public double calculateTimeOfFuelInAir() {
         // need to test imperically
-        return 1;
+        Pose2d currentPose = Robot.drivebase.yagslDrive.getPose();
+        Pose2d goalPose;
+        if(Robot.onRed){
+            goalPose = Settings.Field.Poses.redHub;
+        } else {
+            goalPose = Settings.Field.Poses.blueHub;
+        }
+
+        double dist = Math.sqrt(currentPose.minus(goalPose).getX() * currentPose.minus(goalPose).getX() + currentPose.minus(goalPose).getY() * currentPose.minus(goalPose).getY());
+        return dist * Settings.ShooterSettings.distInMToTOF;
     }
 
 }

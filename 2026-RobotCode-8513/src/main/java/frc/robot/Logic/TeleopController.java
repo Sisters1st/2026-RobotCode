@@ -79,7 +79,8 @@ public class TeleopController {
             }
             */
             Pose2d hubPose = Robot.shooter.calculateGoalPoseOnTheFly();
-            
+            robotVelocity = robotVelocity.times(Settings.TeleopSettings.DriverJoystick.velocityMultWhenShooting);
+
             Robot.drivebase.driveFacingPose(robotVelocity, hubPose, fieldRelative);
             lastPTFHeading = Robot.drivebase.yagslDrive.getOdometryHeading();
             
