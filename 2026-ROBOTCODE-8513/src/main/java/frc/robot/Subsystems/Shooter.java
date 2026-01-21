@@ -1,7 +1,5 @@
 package frc.robot.Subsystems;
 
-import java.util.Set;
-
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.Slot1Configs;
 import com.ctre.phoenix6.controls.VelocityVoltage;
