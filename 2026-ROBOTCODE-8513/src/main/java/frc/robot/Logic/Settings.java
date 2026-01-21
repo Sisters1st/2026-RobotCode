@@ -31,6 +31,8 @@ public class Settings {
         public static int shooterMotor1CANID = 1;
         public static int shooterMotor2CANID = 2;
 
+        public static double distInMToTOF = 0.35;
+
         public static class SpinUpShooterPIDFConstants{
             public static final double kS = 0.1;
             public static final double kV = 0.12;
@@ -58,17 +60,19 @@ public class Settings {
             public static final int yAxis = 0;
             public static final int rAxis = 4;
 
-            public static final boolean usePointToFaceControl = false;
+            public static final boolean usePointToFaceControl = true;
             public static final int rxAxisPTF = 4;
             public static final int ryAxisPTF = 5;
             public static final double pointToFaceRotationCutoff = 0.5;
 
             
-            public static final double deadband = 0.2;
+            public static final double deadband = 0.11;
 
             public static final double rotationalJoystickSensitivity = 1;
 
             public static final int faceHubButton = 1;
+
+            public static final double velocityMultWhenShooting = 0.2;
 
         }
     }
