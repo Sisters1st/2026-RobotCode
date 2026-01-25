@@ -5,7 +5,7 @@ import frc.robot.Robot;
 
 public class Dashboard {
 
-    // public static void updateDashboard() {
-    //     SmartDashboard.putNumber("Shooter Velocity", Robot.shooter.shooterMotorLeft.getEncoder().getVelocity());
-    // }
+    public static void updateDashboard() {
+        SmartDashboard.putNumber("Shooter Velocity", Robot.shooter.shooterMotorLeft.getEncoder().getVelocity());
+    }
 }

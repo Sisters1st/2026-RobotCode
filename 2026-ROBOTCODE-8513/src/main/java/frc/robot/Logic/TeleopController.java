@@ -59,12 +59,18 @@ public class TeleopController {
 
         Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), rV, true, false);
 
+        
         // intake controls
-        // if (Robot.intake.intakeState == IntakeStates.stationary && Robot.teleop.driverXboxController.getRawButton(Settings.TeleopSettings.intake_buttonID)) {
-        //     Robot.intake.intakeState = IntakeStates.intaking;
-        // } else if (Robot.intake.intakeState == IntakeStates.intaking && Robot.teleop.driverXboxController.getRawButton(Settings.TeleopSettings.intake_buttonID)) {
-        //     Robot.intake.intakeState = IntakeStates.stationary;
-        // }
+        if (Robot.intake.intakeState == IntakeStates.stationary && Robot.teleop.driverXboxController.getRawButton(Settings.TeleopSettings.intake_buttonID)) {
+            Robot.intake.intakeState = IntakeStates.intaking;
+        } else if (Robot.intake.intakeState == IntakeStates.intaking && Robot.teleop.driverXboxController.getRawButton(Settings.TeleopSettings.intake_buttonID)) {
+            Robot.intake.intakeState = IntakeStates.stationary;
+        }
+
+
+        // Subsystem set motor power
+        Robot.shooter.setMotorPower();
+        Robot.intake.setMotorPower();  
 
     }
 }

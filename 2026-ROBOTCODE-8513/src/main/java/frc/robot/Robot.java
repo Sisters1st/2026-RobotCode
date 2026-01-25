@@ -79,16 +79,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     teleop.driveTele();
-    // shooter.setMotorPower();
-
-
-    if (teleop.driverXboxController.getRawButton(6)){
-      intakeMotorRight.set(1);
-      intakeMotorLeft.set(-1);
-    } else{
-      intakeMotorRight.set(0);
-      intakeMotorLeft.set(0);
-    }
   }
 
   @Override

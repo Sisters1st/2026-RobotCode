@@ -25,8 +25,10 @@ public class Settings {
 
         public static boolean headingJoystickControls = true;
 
-        public static int intake_buttonID = 1;
-
+        // driver controller button ID
+        public static class ButtonIDs{
+            public static int intake = 1;
+        }
 
     }
 
