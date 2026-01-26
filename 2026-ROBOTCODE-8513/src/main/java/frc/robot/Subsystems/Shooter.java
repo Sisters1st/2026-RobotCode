@@ -18,6 +18,8 @@ public class Shooter {
 
     public ShooterStates shooterState = ShooterStates.stationary;
 
+    public boolean useInternalController = true;
+
     // in init function, set slot 0 gains
     var slot0Configs = new Slot0Configs();
     slot0Configs.kS = 0.1; // Add 0.1 V output to overcome static friction
@@ -35,19 +37,26 @@ public class Shooter {
 
     public void initShooter() {
         shooterMotorKracken.getConfigurator().apply(slot0Configs);
-
-        // set velocity to 8 rps, add 0.5 V to overcome gravity
-        shooterMotorKracken.setControl(m_request.withVelocity(8).withFeedForward(0.5));
     }
 
     public void setMotorPower() {
-        if (shooterState == ShooterStates.shooting) {
+        // shooter controller if not using interal
+        if (shooterState == ShooterStates.shooting && useInternalController == false) {
             shooterMotorLeft.set(updateMotorPower());
             shooterMotorRight.set(updateMotorPower());
 
-        } else if (shooterState == ShooterStates.stationary){
+        } else if (shooterState == ShooterStates.stationary && useInternalController == false){
             shooterMotorLeft.set(0);
             shooterMotorRight.set(0);
+        }
+
+        // shooter controller if using interal
+        if (shooterState == ShooterStates.shooting && useInternalController == true) {
+            shooterMotorKracken.setControl(m_request.withVelocity(8).withFeedForward(0.5));
+
+        } else if (shooterState == ShooterStates.stationary && useInternalController == true){
+            shooterMotorKracken.setControl(m_request.withVelocity(0).withFeedForward(0));
+
         }
     }
 
