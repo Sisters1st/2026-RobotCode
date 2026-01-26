@@ -12,13 +12,32 @@ public class Shooter {
 
     public static SparkMax shooterMotorLeft = new SparkMax(11, MotorType.kBrushless);
     public static SparkFlex shooterMotorRight = new SparkFlex(12, MotorType.kBrushless);
+    public static SparkFlex shooterMotorKracken = new SparkFlex(13, MotorType.kBrushless);
 
     public PIDController shooterMotorController = new PIDController(0.0001, 0.000001, 0);
 
     public ShooterStates shooterState = ShooterStates.stationary;
 
+    // in init function, set slot 0 gains
+    var slot0Configs = new Slot0Configs();
+    slot0Configs.kS = 0.1; // Add 0.1 V output to overcome static friction
+    slot0Configs.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
+    slot0Configs.kP = 0.11; // An error of 1 rps results in 0.11 V output
+    slot0Configs.kI = 0; // no output for integrated error
+    slot0Configs.kD = 0; // no output for error derivative
+
+    // create a velocity closed-loop request, voltage output, slot 0 configs
+    final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
+
     public Shooter() {
-        
+
+    }
+
+    public void initShooter() {
+        shooterMotorKracken.getConfigurator().apply(slot0Configs);
+
+        // set velocity to 8 rps, add 0.5 V to overcome gravity
+        shooterMotorKracken.setControl(m_request.withVelocity(8).withFeedForward(0.5));
     }
 
     public void setMotorPower() {

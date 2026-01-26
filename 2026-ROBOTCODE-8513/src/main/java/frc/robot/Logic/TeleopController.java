@@ -21,13 +21,13 @@ public class TeleopController {
     SlewRateLimiter rfilter = new SlewRateLimiter(4);
 
     public void initTele() {
-
+        Robot.shooter.initShooter();
 
     }
 
     public void driveTele() {
 
-         double xSpeedJoystick = -driverXboxController.getRawAxis(Settings.TeleopSettings.forwardBackwardsAxis); // forward back
+        double xSpeedJoystick = -driverXboxController.getRawAxis(Settings.TeleopSettings.forwardBackwardsAxis); // forward back
         if (xSpeedJoystick < Settings.TeleopSettings.joystickDeadband && xSpeedJoystick > -Settings.TeleopSettings.joystickDeadband) {
             xSpeedJoystick = 0;
         }
