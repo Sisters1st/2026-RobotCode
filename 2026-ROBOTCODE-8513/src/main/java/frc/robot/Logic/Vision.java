@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.Settings;
-import frc.robot.Subsystems.Drivebase;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,9 +65,7 @@ public class Vision {
                                 double poseAmbiguitiy = result.getBestTarget().getPoseAmbiguity();
                                 if (useCamera && tag0Dist < maxDistance && poseAmbiguitiy < 0.15) {
                                         if (updateHeadingWithVision) {
-                                                Robot.drivebase.yagslDrive.addVisionMeasurement(
-                                                                photonPose.get().estimatedPose.toPose2d(),
-                                                                photonPose.get().timestampSeconds);
+                                               
                                         }
                                 }
 

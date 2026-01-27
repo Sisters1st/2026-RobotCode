@@ -13,7 +13,7 @@ public class Shooter {
     public static SparkMax shooterMotorLeft = new SparkMax(11, MotorType.kBrushless);
     public static SparkFlex shooterMotorRight = new SparkFlex(12, MotorType.kBrushless);
 
-    public PIDController shooterMotorController = new PIDController(0.0001, 0.000001, 0);
+    public PIDController shooterMotorController = new PIDController(0.0005, 0.000001, 0);
 
     public ShooterStates shooterState = ShooterStates.stationary;
 
@@ -35,7 +35,7 @@ public class Shooter {
 
     public double updateMotorPower() {
         double currentVelocity = shooterMotorLeft.getEncoder().getVelocity();
-        double targetVelocity = 3000;
+        double targetVelocity = 2900;
         double outputPower = shooterMotorController.calculate(currentVelocity, targetVelocity);
         return outputPower + targetVelocity/6140;
     }

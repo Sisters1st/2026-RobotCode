@@ -51,11 +51,6 @@ public class TeleopController {
         double yInput = Math.pow(ySpeedJoystick, 3);
         double rInput = Math.pow(rSpeedJoystick, 3);
 
-        double xV = xInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.6;
-        double yV = yInput * Robot.drivebase.yagslDrive.getMaximumChassisVelocity() * 0.6;
-        double rV = rInput * Robot.drivebase.yagslDrive.getMaximumChassisAngularVelocity();
-
-
-        Robot.drivebase.yagslDrive.drive(new Translation2d(xV, yV), rV, true, false);
+     
     }
 }
