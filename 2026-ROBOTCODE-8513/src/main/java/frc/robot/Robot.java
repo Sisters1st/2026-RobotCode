@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Logic.AutoController;
 import frc.robot.Logic.Dashboard;
 import frc.robot.Logic.Enums;
 import frc.robot.Logic.TeleopController;
@@ -37,6 +38,7 @@ public class Robot extends TimedRobot {
   public static Dashboard dashboard = new Dashboard();
   public static Intake intake = new Intake();
   public static Enums enums = new Enums();
+  public static AutoController auto = new AutoController();
 
   public Field2d robotCurrentPose = new Field2d();
 
@@ -57,8 +59,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
-      vision.updatePhotonVision();
-      // dashboard.updateDashboard();
+      if (Robot.isReal()) {
+        vision.updatePhotonVision();
+      }
+      dashboard.updateDashboard();
 
       robotCurrentPose.setRobotPose(drivebase.yagslDrive.getPose());
       SmartDashboard.putData("Current Drivebase Position", robotCurrentPose);
@@ -66,10 +70,14 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void autonomousInit() {}
+  public void autonomousInit() {
+    auto.initAuto();
+  }
 
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    auto.runAuto();
+  }
 
   @Override
   public void teleopInit() {

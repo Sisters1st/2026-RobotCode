@@ -1,8 +1,14 @@
 package frc.robot.Logic;
 
-public class Dashboard {
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-    public static void updateDashboard() {
+public class Dashboard {
+    public Field2d trajField2d = new Field2d();
+
+    public void updateDashboard() {
+
+        SmartDashboard.putData("trajGoalPose", trajField2d);
 
     }
 }
