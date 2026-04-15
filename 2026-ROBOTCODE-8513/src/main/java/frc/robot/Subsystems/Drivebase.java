@@ -32,11 +32,11 @@ public class Drivebase {
     public ProfiledPIDController rotationPidController = new ProfiledPIDController(
             frc.robot.Settings.DrivebaseSettings.RotationPIDConstants.kP,
             frc.robot.Settings.DrivebaseSettings.RotationPIDConstants.kI,
-            frc.robot.Settings.DrivebaseSettings.RotationPIDConstants.kD, new Constraints(270, 500));
+            frc.robot.Settings.DrivebaseSettings.RotationPIDConstants.kD, new Constraints(90, 500));
     public ProfiledPIDController faceGoalPidController = new ProfiledPIDController(
             frc.robot.Settings.DrivebaseSettings.FaceGoalPIDConstants.kP,
             frc.robot.Settings.DrivebaseSettings.FaceGoalPIDConstants.kI,
-            frc.robot.Settings.DrivebaseSettings.FaceGoalPIDConstants.kD, new Constraints(270, 500));
+            frc.robot.Settings.DrivebaseSettings.FaceGoalPIDConstants.kD, new Constraints(90, 500));
 
 
     // path following variables

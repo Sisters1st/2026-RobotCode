@@ -17,7 +17,7 @@ public class Settings {
 
     public static class DrivebaseSettings {
 
-        public static final double maxVelocityMPS = 4.2;
+        public static final double maxVelocityMPS = 2;
         public static boolean getPIDValuesFromDashboard = false;
 
         public static class RotationPIDConstants {

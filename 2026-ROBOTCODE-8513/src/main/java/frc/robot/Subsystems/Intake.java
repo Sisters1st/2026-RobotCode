@@ -34,7 +34,7 @@ public class Intake {
     public double intakeFudgeFactor = 0;
     public double timeLeftStowedState;
 
-    public DutyCycleEncoder intakeAbosoluteEncoder = new DutyCycleEncoder(0);
+    public DutyCycleEncoder intakeAbosoluteEncoder = new DutyCycleEncoder(1);
 
     // in init function, set slot 0 gains
     public Slot0Configs slot0Configs = new Slot0Configs();
