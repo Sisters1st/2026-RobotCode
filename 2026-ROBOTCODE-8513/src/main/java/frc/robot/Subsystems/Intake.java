@@ -193,7 +193,7 @@ public class Intake {
         } else {
             adjustedPosition = currentPosition + 1 - 0.35;
         }
-        return adjustedPosition;
+        return adjustedPosition - .07;
     }
 
     public boolean intakeIsStowed() {
