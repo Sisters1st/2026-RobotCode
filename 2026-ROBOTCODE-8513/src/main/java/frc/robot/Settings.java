@@ -119,8 +119,8 @@ public class Settings {
         public static double stowPosition = 0.58;
         public static double deployPosition = 0;
         public static double intakeFudgeFactor = 0.02;
-        public static double shootingPosition = 0.33;
-        public static double maxIntakePositionToNotHitHood = 0.33;
+        public static double shootingPosition = 0.35;
+        public static double maxIntakePositionToNotHitHood = 0.36;
         public static Constraints deployConstraints = new Constraints(1.75, 3.0);
         public static Constraints shootingConstraints = new Constraints(1.75, 3.0);
         public static double spinBackwardsThreshold = 0.05;
@@ -191,12 +191,12 @@ public class Settings {
 
     public class AutoSettings {
         public class Thresholds {
-            public static double drivebaseShootRotationTHold = 3.5;
-            public static double drivebaseLockPoseWhenShootingThold = 3;
+            public static double drivebaseShootRotationTHold = 2.75;
+            public static double drivebaseLockPoseWhenShootingThold = 1.5;
             public static double drivebaseShuttleRotationTHold = 10;
             public static double shootHoodPositionTHold = 0.05;
             public static double shuttleHoodPositionTHold = 0.1;
-            public static double shooterVelocityTHold = 4;
+            public static double shooterVelocityTHold = 3;
             public static double shooterShuttleVelocityTHold = 6;
             public static double autoDetectedBumpPitchTHold = 6;
             public static double autoDetectedBumpPitchCount = 6;
