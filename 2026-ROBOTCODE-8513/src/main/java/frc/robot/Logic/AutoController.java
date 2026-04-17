@@ -2070,7 +2070,7 @@ public class AutoController {
     }
 
     public double getShootingTime() {
-        if (dashboardAutoRoutine1.name().toString().contains("Full")) {
+        if (dashboardAutoRoutine1.name().toString().contains("Full") || dashboardAutoRoutine1.name().toString().contains("Far")) {
             return 4.5;
         } else {
             return 4;
