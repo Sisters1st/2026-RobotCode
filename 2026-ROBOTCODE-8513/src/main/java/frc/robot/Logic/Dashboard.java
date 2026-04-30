@@ -101,6 +101,7 @@ public class Dashboard {
                 SmartDashboard.putNumber("time shooter button pressed",
                                 Robot.teleop.timeIntakeShootingButtonPressed);
                 SmartDashboard.putNumber("adjusted intake pos", Robot.intake.adjustedEncoderPosition());
+                SmartDashboard.putNumber("raw intake pos", Robot.intake.intakeAbosoluteEncoder.get());
 
                 SmartDashboard.putBoolean("Intake is Stowed", Robot.intake.intakeIsStowed());
 

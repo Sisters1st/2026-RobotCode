@@ -1797,6 +1797,45 @@ public class AutoController {
                         break;
                 }
                 break;
+            case MiddlePreLoaded:
+                switch (autoStep) {
+                    case 0:
+
+                        Robot.shooter.shooterState = ShooterStates.stationary;
+                        Robot.hopper.hopperState = HopperStates.stationary;
+                        Robot.kicker.kickerState = KickerStates.stationary;
+                        Robot.intake.intakeState = IntakeStates.stowed;
+
+                        Robot.drivebase.initPath("Middle", false);
+
+                        // path is over
+                        timeStepStarted = Timer.getFPGATimestamp();
+                        autoStep = 5;
+                        break;
+
+                    case 5:
+                        if (Robot.drivebase.followLoadedPath()) {
+                            timeStepStarted = Timer.getFPGATimestamp();
+                            autoStep = 15;
+                        }
+
+                        break;
+                    case 15:
+                        Robot.drivebase.faceHub();
+                        if (Robot.shooter.readyToShootInHub()) {
+                            autoStep = 20;
+                            Robot.teleop.timeIntakeShootingButtonPressed = Timer.getFPGATimestamp();
+
+                        }
+                        break;
+                    case 20:
+                        Robot.drivebase.faceHub();
+                        Robot.hopper.hopperState = HopperStates.indexing;
+                        Robot.kicker.kickerState = KickerStates.shooting;
+                        Robot.intake.intakeState = IntakeStates.stowed;
+                        break;
+                }
+                break;
 
             case Outpost:
                 switch (autoStep) {
@@ -2359,6 +2398,10 @@ public class AutoController {
                 autoRoutine = AutoRoutines.Outpost_AnyTwoParts;
             } else if (dashboardAutoRoutine2.toString().startsWith("Depot")) {
                 autoRoutine = AutoRoutines.Depot_AnyTwoParts;
+            }
+            
+            if (dashboardAutoRoutine1.toString().startsWith("Mid")) {
+                autoRoutine = AutoRoutines.MiddlePreLoaded;
             }
 
         } catch (Exception e) {

@@ -186,14 +186,15 @@ public class Intake {
     public double adjustedEncoderPosition() {
         //this needs to get tuned for new intake positions
         double currentPosition = intakeAbosoluteEncoder.get();
-        double adjustedPosition;
+        double adjustedPosition = currentPosition;
+        return adjustedPosition - 0.1054;
 
-        if (currentPosition  > 0.2) {
-            adjustedPosition = currentPosition - 0.35;
-        } else {
-            adjustedPosition = currentPosition + 1 - 0.35;
-        }
-        return adjustedPosition - .07;
+        // if (currentPosition  > 0.2) {
+        //     adjustedPosition = currentPosition - 0.35;
+        // } else {
+        //     adjustedPosition = currentPosition + 1 - 0.35;
+        // }
+        // return adjustedPosition - .07;
     }
 
     public boolean intakeIsStowed() {

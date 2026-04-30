@@ -22,7 +22,7 @@ public class Enums {
 
     public enum AutoRoutines {
 
-        Outpost_OneCycle_Close, Outpost_OneCycle_Mid, Outpost_OneCycle_Far, Outpost_FullAcross_OneCycle_Close,
+        MiddlePreLoaded, Outpost_OneCycle_Close, Outpost_OneCycle_Mid, Outpost_OneCycle_Far, Outpost_FullAcross_OneCycle_Close,
         Outpost_FullAcross_OneCycle_Mid, Outpost_FullAcross_OneCycle_Far, 
         Outpost_OneCycle_CloseNORETURN, Outpost_OneCycle_MidNORETURN,Outpost_OneCycle_FarNORETURN,
         Outpost_OneCycle_SweepHub,
