@@ -1822,7 +1822,8 @@ public class AutoController {
                         break;
                     case 15:
                         Robot.drivebase.faceHub();
-                        if (Robot.shooter.readyToShootInHub()) {
+                        Robot.shooter.shooterState = ShooterStates.shooting;
+                        if (Robot.shooter.readyToShootInHub() || Robot.isSimulation()) {
                             autoStep = 20;
                             Robot.teleop.timeIntakeShootingButtonPressed = Timer.getFPGATimestamp();
 
