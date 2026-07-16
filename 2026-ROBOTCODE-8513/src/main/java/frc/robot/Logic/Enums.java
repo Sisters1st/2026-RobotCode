@@ -22,16 +22,16 @@ public class Enums {
 
     public enum AutoRoutines {
 
-        Outpost_OneCycle_Close, Outpost_OneCycle_Mid, Outpost_OneCycle_Far, Outpost_FullAcross_OneCycle_Close,
+        MiddlePreLoaded, Outpost_OneCycle_Close, Outpost_OneCycle_Mid, Outpost_OneCycle_Far, Outpost_FullAcross_OneCycle_Close,
         Outpost_FullAcross_OneCycle_Mid, Outpost_FullAcross_OneCycle_Far, 
         Outpost_OneCycle_CloseNORETURN, Outpost_OneCycle_MidNORETURN,Outpost_OneCycle_FarNORETURN,
         Outpost_OneCycle_SweepHub,
-        Outpost_OneCycle_Inward_Close, Outpost_OneCycle_Inward_Mid, Outpost_OneCycle_Inward_Far, Outpost,
+        Outpost_OneCycle_Inward_Close, Outpost_OneCycle_Inward_Mid, Outpost_OneCycle_Inward_Far, Outpost_Cycle1_Fun, Outpost_Cycle2_Fun, Outpost,
         Depot_OneCycle_Close, Depot_OneCycle_Mid, Depot_OneCycle_Far, Depot_FullAcross_OneCycle_Close,
         Depot_FullAcross_OneCycle_Mid, Depot_FullAcross_OneCycle_Far, 
         Depot_OneCycle_CloseNORETURN, Depot_OneCycle_MidNORETURN, Depot_OneCycle_FarNORETURN, 
         Depot_OneCycle_SweepHub, 
-        Depot_OneCycle_Inward_Close, Depot_OneCycle_Inward_Mid, Depot_OneCycle_Inward_Far, Depot,
+        Depot_OneCycle_Inward_Close, Depot_OneCycle_Inward_Mid, Depot_OneCycle_Inward_Far, Depot, Depot_Cycle1_Fun, Depot_Cycle2_Fun,
         DoNothing, OliviaAttemptGoOverBump, Outpost_AnyTwoParts, Depot_AnyTwoParts,  
     }
 
