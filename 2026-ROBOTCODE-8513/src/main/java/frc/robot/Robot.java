@@ -4,13 +4,22 @@
 
 package frc.robot;
 
+import org.littletonrobotics.junction.LoggedRobot;
+import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.wpilog.WPILOGWriter;
+import org.littletonrobotics.junction.networktables.NT4Publisher;
+import org.littletonrobotics.junction.wpilog.WPILOGReader;
+
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import org.littletonrobotics.junction.LogFileUtil;
 
+import edu.wpi.first.epilogue.logging.errors.LoggerDisabler;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Logic.AutoController;
@@ -35,7 +44,9 @@ import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
  * package after creating
  * this project, you must also update the Main.java file in the project.
  */
-public class Robot extends TimedRobot {
+
+// changes from TimedRobot to LoggedRobot for AdvantageKit
+public class Robot extends LoggedRobot {
 
   public static Drivebase drivebase = new Drivebase();
   public static TeleopController teleop = new TeleopController();
@@ -61,7 +72,24 @@ public class Robot extends TimedRobot {
    */
 
   public Robot() {
+    Logger.recordMetadata("2026RobotCode", "initialization"); // Set a metadata value
+
+    if (isReal()) {
+      Logger.addDataReceiver(new WPILOGWriter()); // Log to a USB stick ("/U/logs")
+      Logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
+      
+    } else {
+      setUseTiming(false); // Run as fast as possible
+      String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the user)
+      Logger.setReplaySource(new WPILOGReader(logPath)); // Read replay log
+      Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim"))); // Save outputs to a new log
+    }
+
+    Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may
+                    // be added.
+
     SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
+
     // var configs = new CurrentLimitsConfigs();
     // configs.StatorCurrentLimitEnable = true;
     // configs.StatorCurrentLimit = 60;
@@ -96,6 +124,8 @@ public class Robot extends TimedRobot {
       Robot.intake.intakeDeployMotor.setPosition(0);
       Robot.intake.intakeDeployController.reset(Robot.intake.intakeDeployMotor.getPosition().getValueAsDouble());
     }
+    
+    Logger.recordOutput("time", Timer.getFPGATimestamp());
 
   }
 
