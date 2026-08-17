@@ -86,7 +86,7 @@ public class Robot extends LoggedRobot {
     }
 
     Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may
-                    // be added.
+    //                 // be added.
 
     SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
 
@@ -125,7 +125,7 @@ public class Robot extends LoggedRobot {
       Robot.intake.intakeDeployController.reset(Robot.intake.intakeDeployMotor.getPosition().getValueAsDouble());
     }
     
-    Logger.recordOutput("time", Timer.getFPGATimestamp());
+    // Logger.recordOutput("time", Timer.getFPGATimestamp());
 
   }
 
