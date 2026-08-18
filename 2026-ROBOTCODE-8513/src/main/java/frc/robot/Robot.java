@@ -16,6 +16,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import org.littletonrobotics.junction.LogFileUtil;
 
 import edu.wpi.first.epilogue.logging.errors.LoggerDisabler;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -72,21 +73,24 @@ public class Robot extends LoggedRobot {
    */
 
   public Robot() {
-    Logger.recordMetadata("2026RobotCode", "initialization"); // Set a metadata value
+    // Logger.recordMetadata("2026RobotCode", "initialization"); // Set a metadata value
 
-    if (isReal()) {
-      Logger.addDataReceiver(new WPILOGWriter()); // Log to a USB stick ("/U/logs")
-      Logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
+    // if (isReal()) {
+    //   Logger.addDataReceiver(new WPILOGWriter()); // Log to a USB stick ("/U/logs")
+    //   Logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
       
-    } else {
-      setUseTiming(false); // Run as fast as possible
-      String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the user)
-      Logger.setReplaySource(new WPILOGReader(logPath)); // Read replay log
-      Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim"))); // Save outputs to a new log
-    }
+    // } else {
+    //   setUseTiming(false); // Run as fast as possible
+    //   String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the user)
+    //   System.out.println(logPath);
+    //   Logger.setReplaySource(new WPILOGReader(logPath)); // Read replay log
+    //   Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim"))); // Save outputs to a new log
+    // }
 
-    Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may
-    //                 // be added.
+    // Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may
+    // //                 // be added.
+
+    DataLogManager.start();
 
     SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
 
@@ -125,7 +129,7 @@ public class Robot extends LoggedRobot {
       Robot.intake.intakeDeployController.reset(Robot.intake.intakeDeployMotor.getPosition().getValueAsDouble());
     }
     
-    // Logger.recordOutput("time", Timer.getFPGATimestamp());
+    // Logger.recordOutput("Logging time", Timer.getFPGATimestamp());
 
   }
 
