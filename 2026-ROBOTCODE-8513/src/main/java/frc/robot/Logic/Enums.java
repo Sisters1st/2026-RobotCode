@@ -43,4 +43,8 @@ public class Enums {
         redAlliance, blueAlliance
     }
 
+    public enum selfTestModeSelector {
+        normalMode, selfTestMode
+    }
+
 }

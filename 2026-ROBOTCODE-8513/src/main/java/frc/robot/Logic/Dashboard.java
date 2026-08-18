@@ -14,12 +14,17 @@ import frc.robot.Robot;
 import frc.robot.Settings;
 import frc.robot.Logic.Enums.AllianceSelector;
 import frc.robot.Logic.Enums.TCPChooser;
+import frc.robot.Logic.Enums.selfTestModeSelector;
 
 public class Dashboard {
         public SendableChooser<String> TCPSelector;
         public TCPChooser tCPSelected = TCPChooser.autoDetectWinnerOfAuto;
         public SendableChooser<String> AllianceSelector;
         public AllianceSelector allianceSelected = frc.robot.Logic.Enums.AllianceSelector.redAlliance;
+
+        // sendableChooser for self-test mode
+        public SendableChooser<String> selfTestModeSelector;
+        public selfTestModeSelector selfTestModeSelected = frc.robot.Logic.Enums.selfTestModeSelector.normalMode;
 
         public Field2d trajField2d = new Field2d();
         public Field2d copilotField2d = new Field2d();
@@ -51,8 +56,22 @@ public class Dashboard {
 
                 }
                 SmartDashboard.putData("Manual Alliance Selector", AllianceSelector);
-
                 updateAllianceFromDashboard();
+
+                // self-test mode selector
+                selfTestModeSelector = new SendableChooser<>();
+                selfTestModeSelector.setDefaultOption(frc.robot.Logic.Enums.selfTestModeSelector.values()[0].toString(),
+                                frc.robot.Logic.Enums.selfTestModeSelector.values()[0].toString());
+                for (int i = 1; i < frc.robot.Logic.Enums.selfTestModeSelector.values().length; i++) {
+                        if (frc.robot.Logic.Enums.selfTestModeSelector.values()[i].toString().charAt(0) != '~') {
+                                selfTestModeSelector.addOption(
+                                                frc.robot.Logic.Enums.selfTestModeSelector.values()[i].toString(),
+                                                frc.robot.Logic.Enums.selfTestModeSelector.values()[i].toString());
+                        }
+
+                }
+                SmartDashboard.putData("Manual Self-Test Mode Selector", selfTestModeSelector);
+                updateSelfTestModeFromDashboard();
         }
 
         public void updateDashboard() {
@@ -180,6 +199,9 @@ public class Dashboard {
                 allianceColor();
                 SmartDashboard.putString("Game data", DriverStation.getGameSpecificMessage());
 
+                // self test mode
+                isInSelfTestModeColor();
+
                 // auto ready to shoot values
                 SmartDashboard.putBoolean("hoodPositionReady", Robot.shooter.hoodPositionReady);
                 SmartDashboard.putBoolean("velocityReady", Robot.shooter.velocityReady);
@@ -201,6 +223,8 @@ public class Dashboard {
                 cameraStatusLight(Robot.vision.rightCam);
                 cameraStatusLight(Robot.vision.leftShooterCam);
                 cameraStatusLight(Robot.vision.rightShooterCam);
+
+                updateSelfTestModeFromDashboard();
 
         }
 
@@ -252,6 +276,16 @@ public class Dashboard {
                 }
         }
 
+        public void isInSelfTestModeColor() {
+                Color red = new Color(255, 0, 0);
+                Color green = new Color(0, 255, 0);
+                if (Robot.isInSelfTestMode) {
+                        SmartDashboard.putString("isInSelfTestMode", green.toHexString());
+                } else {
+                        SmartDashboard.putString("isInSelfTestMode", red.toHexString());
+                }
+        }
+
         public void isTCPConnectedColor() {
                 ConnectionInfo[] TCPConnection = NetworkTableInstance.getDefault().getConnections();
                 Color red = new Color(255, 0, 0);
@@ -293,6 +327,22 @@ public class Dashboard {
                         Robot.onRed = true;
                 } else if (allianceSelected == frc.robot.Logic.Enums.AllianceSelector.blueAlliance) {
                         Robot.onRed = false;
+                }
+
+        }
+
+        public void updateSelfTestModeFromDashboard() {
+                try {
+                        selfTestModeSelected = frc.robot.Logic.Enums.selfTestModeSelector
+                                        .valueOf(selfTestModeSelector.getSelected());
+                } catch (Exception e) {
+                        selfTestModeSelected = frc.robot.Logic.Enums.selfTestModeSelector.normalMode;
+                }
+
+                if (selfTestModeSelected == frc.robot.Logic.Enums.selfTestModeSelector.normalMode) {
+                        Robot.isInSelfTestMode = false;
+                } else if (selfTestModeSelected == frc.robot.Logic.Enums.selfTestModeSelector.selfTestMode) {
+                        Robot.isInSelfTestMode = true;
                 }
 
         }

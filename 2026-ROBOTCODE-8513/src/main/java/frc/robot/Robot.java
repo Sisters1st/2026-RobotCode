@@ -65,6 +65,7 @@ public class Robot extends LoggedRobot {
   public AutoRoutines preLoadedAuto = AutoRoutines.DoNothing;
 
   public static boolean onRed = true;
+  public static boolean isInSelfTestMode = false;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -73,22 +74,28 @@ public class Robot extends LoggedRobot {
    */
 
   public Robot() {
-    // Logger.recordMetadata("2026RobotCode", "initialization"); // Set a metadata value
+
+    // ADVANTAGEKIT LOGGING REPLAY
+    // Logger.recordMetadata("2026RobotCode", "initialization"); // Set a metadata
+    // value
 
     // if (isReal()) {
-    //   Logger.addDataReceiver(new WPILOGWriter()); // Log to a USB stick ("/U/logs")
-    //   Logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
-      
+    // Logger.addDataReceiver(new WPILOGWriter()); // Log to a USB stick ("/U/logs")
+    // Logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
+
     // } else {
-    //   setUseTiming(false); // Run as fast as possible
-    //   String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the user)
-    //   System.out.println(logPath);
-    //   Logger.setReplaySource(new WPILOGReader(logPath)); // Read replay log
-    //   Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim"))); // Save outputs to a new log
+    // setUseTiming(false); // Run as fast as possible
+    // String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from
+    // AdvantageScope (or prompt the user)
+    // System.out.println(logPath);
+    // Logger.setReplaySource(new WPILOGReader(logPath)); // Read replay log
+    // Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath,
+    // "_sim"))); // Save outputs to a new log
     // }
 
-    // Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may
-    // //                 // be added.
+    // Logger.start(); // Start logging! No more data receivers, replay sources, or
+    // metadata values may
+    // // // be added.
 
     DataLogManager.start();
 
@@ -128,7 +135,7 @@ public class Robot extends LoggedRobot {
       Robot.intake.intakeDeployMotor.setPosition(0);
       Robot.intake.intakeDeployController.reset(Robot.intake.intakeDeployMotor.getPosition().getValueAsDouble());
     }
-    
+
     // Logger.recordOutput("Logging time", Timer.getFPGATimestamp());
 
   }
@@ -154,8 +161,17 @@ public class Robot extends LoggedRobot {
 
   @Override
   public void teleopPeriodic() {
-    teleop.driveTele();
-    Robot.dashboard.updateTCPConnectionFromDashboard();
+    if (Robot.isInSelfTestMode) {
+      if (teleop.selfTestMode()) {
+        System.out.println("Self Test Mode ran successfully!!");
+      } else {
+        System.out.println("Self Test Mode failed!! at " + Robot.teleop.selfTestModeFailPoint);
+      }
+    } else {
+      teleop.driveTele();
+      Robot.dashboard.updateTCPConnectionFromDashboard();
+    }
+
   }
 
   @Override
