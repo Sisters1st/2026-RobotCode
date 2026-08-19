@@ -43,6 +43,11 @@ public class TeleopController {
     public double timeIntakeShootingButtonPressed;
     public boolean unjam = false;
 
+    // self test mode
+    public String selfTestModeFailPoint;
+    public int testStep = 0;
+    double timeStepStarted;
+
     public double shooterButtonTime;
 
     public Pose2d copilotShuttlePosition = Settings.FieldInfo.ShuttlingPositions.neutralZone1;
@@ -334,13 +339,14 @@ public class TeleopController {
             Robot.intake.intakeState = IntakeStates.intaking;
         }
         if (stowIntakeButtonPressed) {
-            //this should check if hood is below some safe threshold 
-            if (Robot.shooter.shooterHoodMotor.getAbsoluteEncoder().getPosition() < Settings.ShooterSettings.lowestPositionIntakeCanComeBack) {
+            // this should check if hood is below some safe threshold
+            if (Robot.shooter.shooterHoodMotor.getAbsoluteEncoder()
+                    .getPosition() < Settings.ShooterSettings.lowestPositionIntakeCanComeBack) {
                 Robot.intake.intakeState = IntakeStates.maxPositionWhenShooting;
             } else {
                 Robot.intake.intakeState = IntakeStates.stowed;
             }
-        } 
+        }
 
         // button when driver hits x face right and B face left
         if (Robot.teleop.driverXboxController
@@ -410,13 +416,14 @@ public class TeleopController {
         boolean copilotStationaryDeployIntakeButtonPressed = Robot.teleop.copilotJoystick1
                 .getRawButtonPressed(Settings.TeleopSettings.ButtonIDs.copilotStopIntakeWheels);
         if (copilotStowIntakeButtonPressed) {
-            //this should check if hood is below some safe threshold 
-            if (Robot.shooter.shooterHoodMotor.getAbsoluteEncoder().getPosition() < Settings.ShooterSettings.lowestPositionIntakeCanComeBack) {
+            // this should check if hood is below some safe threshold
+            if (Robot.shooter.shooterHoodMotor.getAbsoluteEncoder()
+                    .getPosition() < Settings.ShooterSettings.lowestPositionIntakeCanComeBack) {
                 Robot.intake.intakeState = IntakeStates.maxPositionWhenShooting;
             } else {
                 Robot.intake.intakeState = IntakeStates.stowed;
             }
-        } 
+        }
         if (copilotDeplotIntakeButtonPressed) {
             // if the robot is intaking or stationary
             Robot.intake.intakeState = IntakeStates.intaking;
@@ -489,9 +496,9 @@ public class TeleopController {
         } else if (blueOutpostTrenchButtonPressed) {
             copilotShuttlePosition = Settings.FieldInfo.ShuttlingPositions.blueOutpostTrench;
         } else if (nuetralZoneButtonPressed1) {
-            //copilotShuttlePosition = Settings.FieldInfo.ShuttlingPositions.neutralZone1;
+            // copilotShuttlePosition = Settings.FieldInfo.ShuttlingPositions.neutralZone1;
         } else if (nuetralZoneButtonPressed2) {
-            //copilotShuttlePosition = Settings.FieldInfo.ShuttlingPositions.neutralZone2;
+            // copilotShuttlePosition = Settings.FieldInfo.ShuttlingPositions.neutralZone2;
         }
 
         // MANUAL Controller
@@ -527,6 +534,87 @@ public class TeleopController {
             Robot.shooter.shooterState = ShooterStates.stationary;
         }
 
-       
+    }
+
+    public boolean selfTestMode() {
+        // run all subsystems in self test mode
+        switch (testStep) {
+            case 0:
+                // intake
+                timeStepStarted = Timer.getFPGATimestamp();
+                selfTestModeFailPoint = "intake";
+                Robot.intake.intakeState = IntakeStates.intaking;
+                if (Timer.getFPGATimestamp() - timeStepStarted >= 2) {
+                    if (Math.abs(Robot.intake.intakeMotorLeftLeader.get()) < 0.5) { // replace 0.5 with the speed
+                                                                                    // Threshold
+                        return false;
+                    } else {
+                        Robot.intake.intakeState = IntakeStates.stowed;
+                        testStep = 1;
+                    }
+                }
+                break;
+            case 1:
+                // intake deploy
+                timeStepStarted = Timer.getFPGATimestamp();
+                selfTestModeFailPoint = "intake deploy";
+                Robot.intake.intakeState = IntakeStates.stowed;
+                if (Timer.getFPGATimestamp() - timeStepStarted >= 1) {
+                    if (Robot.intake.intakeDeployMotor.getPosition().getValueAsDouble() < 0.1
+                            && Robot.intake.adjustedEncoderPosition() < 0.9) { // replace 0.1 and
+                                                                               // 0.9 with the
+                                                                               // stowed and adjusted position
+                        return false;
+                    } else {
+                        timeStepStarted = Timer.getFPGATimestamp();
+                        Robot.intake.intakeState = IntakeStates.stationaryDeployed;
+                        if (Timer.getFPGATimestamp() - timeStepStarted >= 1) {
+                            if (Robot.intake.intakeDeployMotor.getPosition().getValueAsDouble() < 0.1
+                                    && Math.abs(Robot.intake.adjustedEncoderPosition()) < 0.5) { // replace not adjusted
+                                                                                                 // position
+                                return false;
+                            } else {
+                                testStep = 2;
+
+                            }
+                        }
+                    }
+
+                }
+                break;
+            case 2:
+                // indexer
+                timeStepStarted = Timer.getFPGATimestamp();
+                selfTestModeFailPoint = "indexer";
+                Robot.hopper.hopperState = HopperStates.indexing;
+                if (Timer.getFPGATimestamp() - timeStepStarted >= 2) {
+                    if (Math.abs(Robot.hopper.indexerMotorTop.get()) < 0.5
+                            && Math.abs(Robot.hopper.indexerMotorBottom.get()) < 0.5) { // replace 0.5 with the speed
+                        // Threshold
+                        return false;
+                    } else {
+                        timeStepStarted = Timer.getFPGATimestamp();
+                        Robot.hopper.hopperState = HopperStates.unjam;
+                        if (Timer.getFPGATimestamp() - timeStepStarted >= 2) {
+                            if (Math.abs(Robot.hopper.indexerMotorTop.get()) < 0.5
+                                    && Math.abs(Robot.hopper.indexerMotorBottom.get()) < 0.5) { // replace not adjusted
+                                // position
+                                return false;
+                            } else {
+                                Robot.hopper.hopperState = HopperStates.stationary;
+                                testStep = 3;
+
+                            }
+                        }
+                    }
+                }
+                break;
+            case 3:
+                break;
+            default:
+                System.out.println("Weekend or invalid day"); // Executes if no cases match
+                break;
+        }
+        return true;
     }
 }

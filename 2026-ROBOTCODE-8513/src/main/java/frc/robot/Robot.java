@@ -53,6 +53,7 @@ public class Robot extends TimedRobot {
   public AutoRoutines preLoadedAuto = AutoRoutines.DoNothing;
 
   public static boolean onRed = true;
+  public static boolean isInSelfTestMode = false;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -120,8 +121,16 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    teleop.driveTele();
-    Robot.dashboard.updateTCPConnectionFromDashboard();
+    if (Robot.isInSelfTestMode) {
+      if (teleop.selfTestMode()) {
+        System.out.println("Self Test Mode ran successfully!!");
+      } else {
+        System.out.println("Self Test Mode failed!! at " + Robot.teleop.selfTestModeFailPoint);
+      }
+    } else {
+      teleop.driveTele();
+      Robot.dashboard.updateTCPConnectionFromDashboard();
+    }
   }
 
   @Override
