@@ -1,2 +1,2 @@
 Command is...
-scp -r admin@10.85.13.2:/u/logs "C:\Users\frc85\logs"
+scp -r admin@10.85.13.2:/u/logs "C:\Users\frc85\logs\customLogs\*.wpilog"
